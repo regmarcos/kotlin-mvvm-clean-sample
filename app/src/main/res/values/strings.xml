@@ -5,4 +5,7 @@
     <string name="no_character">NO CHARACTER</string>
     <string name="btn_search_local">Search local</string>
     <string name="example_id_text">You can use the ID 1017100 to test this app.</string>
+    <string name="list_of_characters">List of Characters</string>
+    <string name="get_characters_error">Something went wrong, please try again</string>
+    <string name="press_to_show_characters">Press to show Characters</string>
 </resources>

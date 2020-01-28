@@ -22,6 +22,14 @@ class MarvelCharacterRepositoryImpl(
             characterDatabase.getCharacterById(id)
         }
 
+    override fun getCharacters(): Result<List<MarvelCharacter>> {
+        val marvelCharacterResult = characterService.getCharacters()
+        if (marvelCharacterResult is Result.Success) {
+            marvelCharacterResult.data.map { characterResponse -> insertOrUpdateCharacter(characterResponse) }
+        }
+        return marvelCharacterResult
+    }
+
     private fun insertOrUpdateCharacter(character: MarvelCharacter) {
         characterDatabase.insertOrUpdateCharacter(character)
     }

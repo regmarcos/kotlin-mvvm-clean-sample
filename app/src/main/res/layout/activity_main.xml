@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="@dimen/panel_layout_margin_top"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -41,7 +41,6 @@
                 android:id="@+id/buttonSearchRemote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@string/btn_search_remote" />
 
@@ -49,7 +48,6 @@
                 android:id="@+id/buttonSearchLocal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@string/btn_search_local" />
 

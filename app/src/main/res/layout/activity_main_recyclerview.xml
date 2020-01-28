@@ -5,7 +5,7 @@
     <Button
         android:id="@+id/characters_button"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="@dimen/recycler_height_main_activity"
         android:text="@string/press_to_show_characters" />
 
     <androidx.recyclerview.widget.RecyclerView

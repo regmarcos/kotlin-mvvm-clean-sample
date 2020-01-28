@@ -5,4 +5,5 @@
     <dimen name="panel_layout_margin_top">16dp</dimen>
     <dimen name="text_view_details_height">300dp</dimen>
     <dimen name="button_list_heigth">50dp</dimen>
+    <dimen name="recycler_height_main_activity">100dp</dimen>
 </resources>

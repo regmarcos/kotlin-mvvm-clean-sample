@@ -13,8 +13,6 @@ val repositoriesModule = module {
     single { CharacterDatabase() }
     single<MarvelCharacterRepository> { MarvelCharacterRepositoryImpl(get(), get()) }
 }
-
-
 val useCasesModule = module {
     single { GetCharacterByIdUseCase() }
     single { GetCharactersUseCase() }

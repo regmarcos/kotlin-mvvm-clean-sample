@@ -48,7 +48,6 @@ dependencies {
             appDependencies.recyclerView,
             appDependencies.glide,
             appDependencies.cardView
-            //appDependencies.annotationProcessor
 
     implementation generalDependencies.appCompat,
             generalDependencies.koin

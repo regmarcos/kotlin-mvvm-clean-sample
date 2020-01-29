@@ -43,8 +43,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    // Retrofit & OkHttp
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
+    implementation dataDependencies.retrofit,
+            dataDependencies.converterGson,
+            dataDependencies.loggingInterceptor
+
 }

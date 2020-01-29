@@ -9,5 +9,6 @@ open class MarvelCharacterRealm(
         @PrimaryKey
         var id: Int = DEFAULT_ID,
         var name: String = EMPTY_STRING,
-        var description: String = EMPTY_STRING
+        var description: String = EMPTY_STRING,
+        var thumbnail: MarvelThumbnailRealm? = MarvelThumbnailRealm(EMPTY_STRING, EMPTY_STRING)
 ) : RealmObject()

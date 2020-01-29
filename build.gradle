@@ -1,14 +1,64 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+
+    //Android
+    androidMinSdkVersion = 22
+    androidTargetSdkVersion = 28
+    androidCompileSdkVersion = 28
+
+    //generalDependencies Version
+    appCompatVersion = "1.0.2"
+    koinVersion = "2.0.0-GA"
+
+    //appDependencies Version
+    coroutinesAndroidVersion = "1.3.2"
+    coroutinesCoreVersion = "1.3.2"
+    viewModelVersion = "2.1.0"
+    ktxVersion = "1.1.0"
+    constraintLayoutVersion = "1.1.3"
+    recyclerViewVersion = "1.1.0"
+    glideVersion = "4.11.0"
+    cardViewVersion = "1.0.0"
+
+    //dataDependencies Version
+
+    retrofitVersion = "2.4.0"
+    converterGsonVersion = "2.4.0"
+    loggingInterceptorVersion = "3.9.0"
+
+    generalDependencies = [
+            appCompat : "androidx.appcompat:appcompat:$appCompatVersion",
+            koin      : "org.koin:koin-androidx-viewmodel:$koinVersion"
+    ]
+
+    appDependencies = [
+            coroutinesAndroid   : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesAndroidVersion",
+            coroutinesCore      : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion",
+            viewModel           : "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion",
+            ktx                 : "androidx.core:core-ktx:$ktxVersion",
+            constraintLayout    : "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
+            recyclerView        : "androidx.recyclerview:recyclerview:$recyclerViewVersion",
+            glide               : "com.github.bumptech.glide:glide:$glideVersion",
+            cardView            : "androidx.cardview:cardview:$cardViewVersion"
+            //annotationProcessor : "com.github.bumptech.glide:compiler:$glideVersion"
+    ]
+
+    dataDependencies = [
+            retrofit           : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            converterGson      : "com.squareup.retrofit2:converter-gson:$converterGsonVersion",
+            loggingInterceptor : "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion"
+    ]
+
+}// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     ext.kotlin_version = '1.3.31'
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath 'com.android.tools.build:gradle:3.5.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -19,7 +69,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+
     }
 }
 

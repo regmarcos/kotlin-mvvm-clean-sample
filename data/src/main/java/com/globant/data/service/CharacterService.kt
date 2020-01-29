@@ -24,4 +24,13 @@ class CharacterService {
         return Result.Failure(Exception("Bad request/response"))
     }
 
+    fun getCharacters() : Result<List<MarvelCharacter>> {
+        val callResponse = api.createService(MarvelApi::class.java).getCharacters()
+        callResponse.execute().let {
+            if (it.isSuccessful) {
+                it.body()?.data?.characters?.map { characterResponse -> mapper.transform(characterResponse) }?.let { response -> return Result.Success(response) }
+            }
+            return Result.Failure(Exception(callResponse.execute().message()))
+        }
+    }
 }

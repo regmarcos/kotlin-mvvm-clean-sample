@@ -15,15 +15,9 @@
         android:layout_height="match_parent"/>
     <TextView
         android:id="@+id/card_view_character_name"
+        android:text="@string/name"
+        style="@style/MarvelTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_card_view"
-        android:textColor="@color/white"
-        android:layout_margin="@dimen/margin_card_view"
-        android:text="@string/name"
-        android:layout_gravity="bottom|end"
-        android:textStyle="bold"
-        android:textAlignment="textEnd"
-        android:elevation="@dimen/elevation_text_view_card_view"
-        android:background="@drawable/shadow"/>
+        android:textColor="@color/white"/>
 </androidx.cardview.widget.CardView>

@@ -8,4 +8,5 @@
     <string name="list_of_characters">List of Characters</string>
     <string name="get_characters_error">Something went wrong, please try again</string>
     <string name="press_to_show_characters">Press to show Characters</string>
+    <string name="name">name</string>
 </resources>

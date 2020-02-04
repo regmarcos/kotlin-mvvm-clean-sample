@@ -11,4 +11,10 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <ProgressBar
+        android:id="@+id/progress_bar_main_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"/>
+
 </LinearLayout>

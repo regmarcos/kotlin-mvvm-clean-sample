@@ -8,4 +8,8 @@
     <dimen name="recycler_height_main_activity">100dp</dimen>
     <dimen name="card_view_height">200dp</dimen>
     <dimen name="corner_radius_card_view">20dp</dimen>
+    <dimen name="text_size_card_view">16sp</dimen>
+    <dimen name="margin_card_view">16dp</dimen>
+    <dimen name="elevation_text_view_card_view">1dp</dimen>
+    <dimen name="elevation_card_view">3dp</dimen>
 </resources>

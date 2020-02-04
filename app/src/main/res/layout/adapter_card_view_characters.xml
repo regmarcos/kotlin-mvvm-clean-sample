@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/card_view_height"
     app:cardCornerRadius="@dimen/corner_radius_card_view"
-    tools:backgroundTint="#A74545"
-    app:cardElevation="3dp">
+    tools:backgroundTint="@color/background_card_view"
+    app:cardElevation="@dimen/elevation_card_view">
 
     <ImageView
         android:id="@+id/card_view_character_thumbnail"
@@ -17,13 +17,13 @@
         android:id="@+id/card_view_character_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#ffffff"
-        android:layout_margin="16dp"
+        android:textSize="@dimen/text_size_card_view"
+        android:textColor="@color/white"
+        android:layout_margin="@dimen/margin_card_view"
         android:text="@string/name"
         android:layout_gravity="bottom|end"
         android:textStyle="bold"
         android:textAlignment="textEnd"
-        android:elevation="0.5dp"
+        android:elevation="@dimen/elevation_text_view_card_view"
         android:background="@drawable/shadow"/>
 </androidx.cardview.widget.CardView>

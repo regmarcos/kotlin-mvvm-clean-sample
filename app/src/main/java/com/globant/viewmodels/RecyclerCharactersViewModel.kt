@@ -21,7 +21,7 @@ class RecyclerCharactersViewModel(val getCharactersUseCase: GetCharactersUseCase
             return mutableMainState
         }
 
-    fun onListOfCharactersClicked() = viewModelScope.launch {
+    fun requestAllCharacters() = viewModelScope.launch {
         mutableMainState.value = Event(Data(responseType = Status.LOADING))
         when (val result = withContext(Dispatchers.IO) { getCharactersUseCase()}){
             is Result.Failure -> {

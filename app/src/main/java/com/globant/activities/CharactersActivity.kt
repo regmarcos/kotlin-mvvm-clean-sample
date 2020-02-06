@@ -35,7 +35,7 @@ class CharactersActivity : AppCompatActivity() {
         when (characterData.peekContent().responseType) {
             Status.ERROR -> {
                 hideLoading()
-                Toast.makeText(this, R.string.get_characters_error,Toast.LENGTH_SHORT).show()
+                showToastError()
             }
             Status.LOADING -> {
                 showLoading()
@@ -51,6 +51,10 @@ class CharactersActivity : AppCompatActivity() {
 
     private fun showToastName(name: String) {
         Toast.makeText(this, name, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showToastError() {
+        Toast.makeText(this, R.string.get_characters_error,Toast.LENGTH_SHORT).show()
     }
 
     private fun showLoading() {

@@ -12,7 +12,8 @@
     <ImageView
         android:id="@+id/card_view_character_thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"/>
     <TextView
         android:id="@+id/card_view_character_name"
         android:text="@string/name"

@@ -8,5 +8,6 @@ class MarvelCharacter(
         val id: Int = DEFAULT_ID,
         val name: String = NOT_FOUND,
         val description: String = NOT_FOUND,
-        val thumbnail: MarvelThumbnail?
+        val thumbnail: MarvelThumbnail?,
+        val comics: ComicList
 )

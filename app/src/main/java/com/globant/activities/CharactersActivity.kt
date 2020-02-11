@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.globant.adapter.CharacterAdapter
 import com.globant.domain.entities.MarvelCharacter
+import com.globant.fragments.CharacterFragmentDialog
 import com.globant.myapplication.R
 import com.globant.utils.Data
 import com.globant.utils.Event
@@ -20,7 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class CharactersActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<RecyclerCharactersViewModel>()
-    private var adapter = CharacterAdapter { character -> showToastName(character.name) }
+    private var adapter = CharacterAdapter { character -> showDialogFragmentCharacter(character.id) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,5 +64,12 @@ class CharactersActivity : AppCompatActivity() {
 
     private fun hideLoading() {
         progress_bar_main_activity.visibility = View.GONE
+    }
+
+    private fun showDialogFragmentCharacter(id: Int){
+        val fragmentManager = this.supportFragmentManager
+        fragmentManager?.let{
+            CharacterFragmentDialog.newInstance(id, this).show(it, "tag")
+        }
     }
 }

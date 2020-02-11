@@ -13,4 +13,7 @@
     <dimen name="elevation_text_view_card_view">1dp</dimen>
     <dimen name="elevation_card_view">3dp</dimen>
     <dimen name="progress_bar_margin">180dp</dimen>
+    <dimen name="comic_card_view_dimen">100dp</dimen>
+    <dimen name="margin_card_view_comic">2.5dp</dimen>
+    <dimen name="margin_bottom_card_view_comic">5dp</dimen>
 </resources>

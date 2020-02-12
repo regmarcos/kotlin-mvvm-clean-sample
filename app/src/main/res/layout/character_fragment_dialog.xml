@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.globant.fragments.CharacterFragmentDialog">
 
-    <!-- TODO: Update blank fragment layout -->
     <ProgressBar
         android:id="@+id/progress_bar_fragment_dialog"
         android:layout_width="wrap_content"

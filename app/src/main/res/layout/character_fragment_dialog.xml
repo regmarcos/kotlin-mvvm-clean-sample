@@ -11,15 +11,16 @@
         android:id="@+id/progress_bar_fragment_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/dialog_fragment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/fragment_dialog_text_margin_top"
         android:gravity="center"
         android:text="@string/hello_blank_fragment"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +29,7 @@
         android:id="@+id/dialog_fragment_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/fragment_dialog_text_margin_top"
         android:gravity="center"
         android:text="@string/description"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,8 +37,8 @@
 
     <ImageView
         android:id="@+id/dialog_fragment_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/image_fragment_dialog_size"
+        android:layout_height="@dimen/image_fragment_dialog_size"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +48,7 @@
         android:id="@+id/title_comics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/margin_top_fragment_dialog"
         android:gravity="center"
         android:text="@string/comics"
         app:layout_constraintTop_toBottomOf="@id/dialog_fragment_image" />
@@ -59,6 +60,6 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:scrollbars="vertical|horizontal"
-        app:layout_constraintTop_toBottomOf="@id/title_comics"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_comics" />
 </androidx.constraintlayout.widget.ConstraintLayout>

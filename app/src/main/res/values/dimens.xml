@@ -16,4 +16,7 @@
     <dimen name="comic_card_view_dimen">100dp</dimen>
     <dimen name="margin_card_view_comic">2.5dp</dimen>
     <dimen name="margin_bottom_card_view_comic">5dp</dimen>
+    <dimen name="margin_top_fragment_dialog">20dp</dimen>
+    <dimen name="image_fragment_dialog_size">200dp</dimen>
+    <dimen name="fragment_dialog_text_margin_top">20dp</dimen>
 </resources>

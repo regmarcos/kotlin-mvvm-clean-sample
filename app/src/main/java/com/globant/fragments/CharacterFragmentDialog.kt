@@ -1,6 +1,5 @@
 package com.globant.fragments
 
-
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,12 +14,12 @@ import com.globant.adapter.ComicAdapter
 import com.globant.domain.entities.Comic
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.extensions.getImageByUrl
-import com.globant.viewmodels.CharacterFragmentViewModel
 import com.globant.myapplication.R
 import com.globant.utils.DOT
 import com.globant.utils.Data
 import com.globant.utils.Event
 import com.globant.utils.Status
+import com.globant.viewmodels.CharacterFragmentViewModel
 import kotlinx.android.synthetic.main.character_fragment_dialog.dialog_fragment_description
 import kotlinx.android.synthetic.main.character_fragment_dialog.dialog_fragment_image
 import kotlinx.android.synthetic.main.character_fragment_dialog.dialog_fragment_title
@@ -97,7 +96,6 @@ class CharacterFragmentDialog : DialogFragment() {
                     showComicLoading()
                 }
                 hideLoading()
-
             }
         }
     }

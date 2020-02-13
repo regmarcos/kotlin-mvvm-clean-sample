@@ -7,11 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.globant.adapter.CharacterAdapter
 import com.globant.domain.entities.MarvelCharacter
+import com.globant.fragments.CharacterFragmentDialog
 import com.globant.myapplication.R
 import com.globant.utils.Data
 import com.globant.utils.Event
 import com.globant.utils.SPAN_COUNT
 import com.globant.utils.Status
+import com.globant.utils.TAG
 import com.globant.viewmodels.RecyclerCharactersViewModel
 import kotlinx.android.synthetic.main.activity_main_recyclerview.progress_bar_main_activity
 import kotlinx.android.synthetic.main.activity_main_recyclerview.recycler_view_characters
@@ -20,7 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class CharactersActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<RecyclerCharactersViewModel>()
-    private var adapter = CharacterAdapter { character -> showToastName(character.name) }
+    private var adapter = CharacterAdapter { character -> showDialogFragmentCharacter(character.id) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +56,7 @@ class CharactersActivity : AppCompatActivity() {
     }
 
     private fun showToastError() {
-        Toast.makeText(this, R.string.get_characters_error,Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.get_characters_error, Toast.LENGTH_SHORT).show()
     }
 
     private fun showLoading() {
@@ -63,5 +65,14 @@ class CharactersActivity : AppCompatActivity() {
 
     private fun hideLoading() {
         progress_bar_main_activity.visibility = View.GONE
+    }
+
+    private fun showDialogFragmentCharacter(id: Int) {
+        showLoading()
+        val fragmentManager = this.supportFragmentManager
+        fragmentManager?.let {
+            CharacterFragmentDialog.newInstance(id, this).show(it, TAG)
+            hideLoading()
+        }
     }
 }

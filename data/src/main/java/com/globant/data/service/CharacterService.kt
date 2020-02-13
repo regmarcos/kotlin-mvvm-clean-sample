@@ -2,7 +2,7 @@ package com.globant.data.service
 
 import com.globant.data.MarvelRequestGenerator
 import com.globant.data.ZERO
-import com.globant.data.mapper.CharacterMapperService
+import com.globant.data.mapper.CharacterMapperRemote
 import com.globant.data.service.api.MarvelApi
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.domain.utils.Result
@@ -10,7 +10,7 @@ import com.globant.domain.utils.Result
 class CharacterService {
 
     private val api: MarvelRequestGenerator = MarvelRequestGenerator()
-    private val mapper: CharacterMapperService = CharacterMapperService()
+    private val mapper: CharacterMapperRemote = CharacterMapperRemote()
 
     fun getCharacterById(id: Int): Result<MarvelCharacter> {
         val callResponse = api.createService(MarvelApi::class.java).getCharacterById(id)

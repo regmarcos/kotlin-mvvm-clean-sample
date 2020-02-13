@@ -15,7 +15,6 @@ import com.globant.utils.SPAN_COUNT
 import com.globant.utils.Status
 import com.globant.utils.TAG
 import com.globant.viewmodels.RecyclerCharactersViewModel
-import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main_recyclerview.progress_bar_main_activity
 import kotlinx.android.synthetic.main.activity_main_recyclerview.recycler_view_characters
 import org.koin.androidx.viewmodel.ext.android.viewModel

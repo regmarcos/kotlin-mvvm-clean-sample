@@ -11,6 +11,8 @@ import com.globant.domain.utils.Result
 import com.globant.utils.Data
 import com.globant.utils.Status
 import com.google.common.truth.Truth
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -23,9 +25,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.koin.test.AutoCloseKoinTest
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 
 class CharacterFragmentViewModelTest : AutoCloseKoinTest() {
 
@@ -41,31 +40,21 @@ class CharacterFragmentViewModelTest : AutoCloseKoinTest() {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     lateinit var viewModel: CharacterFragmentViewModel
-    @Mock
-    lateinit var marvelCharacterSuccess: Result.Success<MarvelCharacter>
-    @Mock
-    lateinit var marvelCharacterFailure: Result.Failure
-    @Mock
-    lateinit var marvelCharacter: MarvelCharacter
-    @Mock
-    lateinit var comicSuccess: Result.Success<List<Comic>>
-    @Mock
-    lateinit var comicFailure: Result.Failure
-    @Mock
-    lateinit var comics: List<Comic>
-    @Mock
-    lateinit var exception: Exception
-    @Mock
-    lateinit var getCharacterByIdUseCase: GetCharacterByIdUseCase
-    @Mock
-    lateinit var getComicsUseCase: GetComicsUseCase
+
+    private val marvelCharacterSuccess: Result.Success<MarvelCharacter> = mock()
+    private val marvelCharacterFailure: Result.Failure = mock()
+    private val marvelCharacter: MarvelCharacter = mock()
+    private val comicSuccess: Result.Success<List<Comic>> = mock()
+    private val comicFailure: Result.Failure = mock()
+    private val comics: List<Comic> = mock()
+    private val getCharacterByIdUseCase: GetCharacterByIdUseCase = mock()
+    private val getComicsUseCase: GetComicsUseCase = mock()
 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
     @Before
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
-        MockitoAnnotations.initMocks(this)
         viewModel = CharacterFragmentViewModel(getCharacterByIdUseCase, getComicsUseCase)
     }
 
@@ -80,57 +69,57 @@ class CharacterFragmentViewModelTest : AutoCloseKoinTest() {
     @Test
     fun getCharacterByIdSuccess() {
         val liveDataUnderTest = viewModel.mainState.testObserver()
-        Mockito.`when`(getCharacterByIdUseCase.invoke(VALID_ID, true)).thenReturn(marvelCharacterSuccess)
-        Mockito.`when`(marvelCharacterSuccess.data).thenReturn(marvelCharacter)
+        whenever(getCharacterByIdUseCase.invoke(VALID_ID, true)).thenReturn(marvelCharacterSuccess)
+        whenever(marvelCharacterSuccess.data).thenReturn(marvelCharacter)
         runBlocking {
             viewModel.getCharacterById(VALID_ID).join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-                .isEqualTo(Data(Status.LOADING, data = null))
+            .isEqualTo(Data(Status.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-                .isEqualTo(Data(Status.SUCCESSFUL, data = marvelCharacter))
+            .isEqualTo(Data(Status.SUCCESSFUL, data = marvelCharacter))
     }
 
 
     @Test
     fun getCharacterByIdFailure() {
         val liveDataUnderTest = viewModel.mainState.testObserver()
-        Mockito.`when`(getCharacterByIdUseCase.invoke(INVALID_ID, true)).thenReturn(marvelCharacterFailure)
+        whenever(getCharacterByIdUseCase.invoke(INVALID_ID, true)).thenReturn(marvelCharacterFailure)
         runBlocking {
             viewModel.getCharacterById(INVALID_ID).join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-                .isEqualTo(Data(Status.LOADING, data = null))
+            .isEqualTo(Data(Status.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-                .isEqualTo(Data(Status.ERROR, data = null))
+            .isEqualTo(Data(Status.ERROR, data = null))
 
     }
 
     @Test
     fun getAllComicsSuccess() {
         val liveDataUnderTest = viewModel.comicState.testObserver()
-        Mockito.`when`(getComicsUseCase.invoke(VALID_ID)).thenReturn(comicSuccess)
-        Mockito.`when`(comicSuccess.data).thenReturn(comics)
+        whenever(getComicsUseCase.invoke(VALID_ID)).thenReturn(comicSuccess)
+        whenever(comicSuccess.data).thenReturn(comics)
         runBlocking {
             viewModel.getAllComics(VALID_ID).join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-                .isEqualTo(Data(Status.LOADING, data = null))
+            .isEqualTo(Data(Status.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-                .isEqualTo(Data(Status.SUCCESSFUL, data = comics))
+            .isEqualTo(Data(Status.SUCCESSFUL, data = comics))
     }
 
     @Test
     fun getAllComicsFailure() {
         val liveDataUnderTest = viewModel.comicState.testObserver()
-        Mockito.`when`(getComicsUseCase.invoke(INVALID_ID)).thenReturn(comicFailure)
+        whenever(getComicsUseCase.invoke(INVALID_ID)).thenReturn(comicFailure)
         runBlocking {
             viewModel.getAllComics(INVALID_ID).join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-                .isEqualTo(Data(Status.LOADING, data = null))
+            .isEqualTo(Data(Status.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-                .isEqualTo(Data(Status.ERROR, data = null))
+            .isEqualTo(Data(Status.ERROR, data = null))
     }
 
     class TestObserver<T> : Observer<T> {

@@ -11,6 +11,7 @@ import com.globant.utils.Data
 import com.globant.utils.Status
 import com.globant.viewmodels.CharacterViewModel
 import com.google.common.truth.Truth
+import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -43,14 +44,10 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     lateinit var subject: CharacterViewModel
-    @Mock
-    lateinit var marvelCharacterValidResult: Result.Success<MarvelCharacter>
-    @Mock
-    lateinit var marvelCharacterInvalidResult: Result.Failure
-    @Mock
-    lateinit var marvelCharacter: MarvelCharacter
-    @Mock
-    lateinit var exception: Exception
+    private val marvelCharacterValidResult: Result.Success<MarvelCharacter> = mock()
+    private val marvelCharacterInvalidResult: Result.Failure = mock()
+    private val marvelCharacter: MarvelCharacter = mock()
+    private val exception: Exception = mock()
 
     private val getCharacterByIdUseCase: GetCharacterByIdUseCase by inject()
 

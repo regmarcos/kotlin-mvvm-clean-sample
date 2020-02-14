@@ -8,6 +8,9 @@ import com.globant.domain.entities.MarvelCharacter
 import com.globant.domain.usecases.GetCharacterByIdUseCase
 import com.globant.domain.usecases.GetComicsUseCase
 import com.globant.domain.utils.Result
+import com.globant.myapplication.INVALID_ID
+import com.globant.myapplication.UI_THREAD
+import com.globant.myapplication.VALID_ID
 import com.globant.utils.Data
 import com.globant.utils.Status
 import com.google.common.truth.Truth
@@ -129,8 +132,6 @@ class CharacterFragmentViewModelTest : AutoCloseKoinTest() {
     }
 
     companion object {
-        const val VALID_ID = 1017100
-        const val INVALID_ID = -1
-        const val UI_THREAD = "UI Thread"
+
     }
 }

@@ -8,6 +8,7 @@ import com.globant.domain.usecases.GetCharacterByIdUseCase
 import com.globant.domain.utils.Result
 import com.globant.utils.Data
 import com.globant.utils.Status
+import com.globant.viewmodels.CharacterFragmentViewModelTest.Companion.UI_THREAD
 import com.globant.viewmodels.CharacterViewModel
 import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.mock
@@ -27,11 +28,8 @@ import org.koin.test.mock.declareMock
 
 import org.mockito.Mockito.`when` as whenever
 
-private const val VALID_ID = 1017100
-private const val INVALID_ID = -1
-private const val UI_THREAD = "UI Thread"
-
 class CharacterViewModelTest : AutoCloseKoinTest() {
+
 
     @ObsoleteCoroutinesApi
     private var mainThreadSurrogate = newSingleThreadContext(UI_THREAD)
@@ -73,7 +71,7 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
             subject.onSearchRemoteClicked(VALID_ID).join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues)
-                .isEqualTo(listOf(Data(Status.LOADING), Data(Status.SUCCESSFUL, data = marvelCharacter)))
+            .isEqualTo(listOf(Data(Status.LOADING), Data(Status.SUCCESSFUL, data = marvelCharacter)))
 
     }
 
@@ -88,7 +86,7 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
         }
 
         Truth.assertThat(liveDataUnderTest.observedValues)
-                .isEqualTo(listOf(Data(Status.LOADING), Data(Status.ERROR, data = null, error = exception)))
+            .isEqualTo(listOf(Data(Status.LOADING), Data(Status.ERROR, data = null, error = exception)))
     }
 
     @Test
@@ -102,7 +100,7 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
         }
 
         Truth.assertThat(liveDataUnderTest.observedValues)
-                .isEqualTo(listOf(Data(Status.LOADING), Data(Status.SUCCESSFUL, data = marvelCharacter)))
+            .isEqualTo(listOf(Data(Status.LOADING), Data(Status.SUCCESSFUL, data = marvelCharacter)))
     }
 
     @Test
@@ -116,7 +114,7 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
         }
 
         Truth.assertThat(liveDataUnderTest.observedValues)
-                .isEqualTo(listOf(Data(Status.LOADING), Data(Status.ERROR, data = null, error = exception)))
+            .isEqualTo(listOf(Data(Status.LOADING), Data(Status.ERROR, data = null, error = exception)))
     }
 
     class TestObserver<T> : Observer<T> {

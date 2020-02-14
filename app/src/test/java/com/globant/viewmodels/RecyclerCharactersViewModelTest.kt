@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.domain.usecases.GetCharactersUseCase
 import com.globant.domain.utils.Result
+import com.globant.myapplication.UI_THREAD
 import com.globant.utils.Data
 import com.globant.utils.Status
 import com.google.common.truth.Truth
@@ -23,8 +24,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.koin.test.AutoCloseKoinTest
-
-private const val UI_THREAD = "UI Thread"
 
 class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
 

@@ -24,10 +24,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.test.AutoCloseKoinTest
 
+private const val UI_THREAD = "UI Thread"
+
 class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
 
     @ObsoleteCoroutinesApi
-    var mainThreadSurrogate = newSingleThreadContext("UI thread")
+    var mainThreadSurrogate = newSingleThreadContext(UI_THREAD)
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()

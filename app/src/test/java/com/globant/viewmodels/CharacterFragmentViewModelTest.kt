@@ -28,13 +28,8 @@ import org.koin.test.AutoCloseKoinTest
 
 class CharacterFragmentViewModelTest : AutoCloseKoinTest() {
 
-    companion object {
-        const val VALID_ID = 1017100
-        const val INVALID_ID = -1
-    }
-
     @ObsoleteCoroutinesApi
-    var mainThreadSurrogate = newSingleThreadContext("UI thread")
+    var mainThreadSurrogate = newSingleThreadContext(UI_THREAD)
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -131,5 +126,11 @@ class CharacterFragmentViewModelTest : AutoCloseKoinTest() {
 
     private fun <T> LiveData<T>.testObserver() = TestObserver<T>().also {
         observeForever(it)
+    }
+
+    companion object {
+        const val VALID_ID = 1017100
+        const val INVALID_ID = -1
+        const val UI_THREAD = "UI Thread"
     }
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.domain.usecases.GetCharacterByIdUseCase
 import com.globant.domain.utils.Result
-import com.globant.useCasesModule
 import com.globant.utils.Data
 import com.globant.utils.Status
 import com.globant.viewmodels.CharacterViewModel
@@ -23,22 +22,19 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
 import org.koin.test.AutoCloseKoinTest
-import org.koin.test.inject
 import org.koin.test.mock.declareMock
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
+
 import org.mockito.Mockito.`when` as whenever
 
 private const val VALID_ID = 1017100
 private const val INVALID_ID = -1
+private const val UI_THREAD = "UI Thread"
 
 class CharacterViewModelTest : AutoCloseKoinTest() {
 
     @ObsoleteCoroutinesApi
-    private var mainThreadSurrogate = newSingleThreadContext("UI thread")
+    private var mainThreadSurrogate = newSingleThreadContext(UI_THREAD)
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -49,19 +45,14 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
     private val marvelCharacter: MarvelCharacter = mock()
     private val exception: Exception = mock()
 
-    private val getCharacterByIdUseCase: GetCharacterByIdUseCase by inject()
+    private val getCharacterByIdUseCase: GetCharacterByIdUseCase = mock()
 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
     @Before
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
-        startKoin {
-            modules(listOf(useCasesModule))
-        }
-
         declareMock<GetCharacterByIdUseCase>()
-        MockitoAnnotations.initMocks(this)
         subject = CharacterViewModel(getCharacterByIdUseCase)
     }
 
@@ -69,7 +60,6 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
     @ObsoleteCoroutinesApi
     @After
     fun after() {
-        stopKoin()
         mainThreadSurrogate.close()
         Dispatchers.resetMain()
     }

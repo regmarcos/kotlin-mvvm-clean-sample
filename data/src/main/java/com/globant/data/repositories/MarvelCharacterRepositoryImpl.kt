@@ -30,6 +30,10 @@ class MarvelCharacterRepositoryImpl(
         return marvelCharacterResult
     }
 
+    override fun getCharactersFromDB(): Result<List<MarvelCharacter>> {
+        return characterDatabase.getAllCharacters()
+    }
+
     private fun insertOrUpdateCharacter(character: MarvelCharacter) {
         characterDatabase.insertOrUpdateCharacter(character)
     }

@@ -6,4 +6,5 @@ import com.globant.domain.utils.Result
 interface MarvelCharacterRepository {
     fun getCharacterById(id: Int, getFromRemote: Boolean): Result<MarvelCharacter>
     fun getCharacters(): Result<List<MarvelCharacter>>
+    fun getCharactersFromDB(): Result<List<MarvelCharacter>>
 }

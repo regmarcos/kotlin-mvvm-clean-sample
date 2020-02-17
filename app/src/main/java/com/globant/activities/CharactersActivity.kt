@@ -15,6 +15,9 @@ import com.globant.utils.SPAN_COUNT
 import com.globant.utils.Status
 import com.globant.utils.TAG
 import com.globant.viewmodels.RecyclerCharactersViewModel
+import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_delete
+import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_refresh
+import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_storage
 import kotlinx.android.synthetic.main.activity_main_recyclerview.progress_bar_main_activity
 import kotlinx.android.synthetic.main.activity_main_recyclerview.recycler_view_characters
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,6 +34,7 @@ class CharactersActivity : AppCompatActivity() {
         recycler_view_characters.adapter = adapter
         recycler_view_characters.layoutManager = GridLayoutManager(this, SPAN_COUNT)
         viewModel.requestAllCharacters()
+        setListeners()
     }
 
     private fun updateUI(characterData: Event<Data<List<MarvelCharacter>>>) {
@@ -40,12 +44,14 @@ class CharactersActivity : AppCompatActivity() {
                 showToastError()
             }
             Status.LOADING -> {
+                hideFAB()
                 showLoading()
             }
             Status.SUCCESSFUL -> {
                 hideLoading()
+                showFAB()
                 characterData.peekContent().data?.let {
-                    adapter.data = it
+                    showCharacters(it)
                 }
             }
         }
@@ -70,9 +76,30 @@ class CharactersActivity : AppCompatActivity() {
     private fun showDialogFragmentCharacter(id: Int) {
         showLoading()
         val fragmentManager = this.supportFragmentManager
-        fragmentManager?.let {
+        fragmentManager.let {
             CharacterFragmentDialog.newInstance(id, this).show(it, TAG)
             hideLoading()
         }
+    }
+
+    private fun setListeners() {
+        fab_refresh.setOnClickListener { viewModel.onRefreshFABClicked(this) }
+        fab_delete.setOnClickListener { viewModel.onDeleteFABClicked(this) }
+        fab_storage.setOnClickListener { viewModel.onStorageFABClicked(this) }
+    }
+
+    fun showCharacters(characters: List<MarvelCharacter>) {
+        adapter.data = characters
+    }
+
+    private fun hideFAB() {
+        fab_storage.visibility = View.GONE
+        fab_refresh.visibility = View.GONE
+        fab_delete.visibility = View.GONE
+    }
+    private fun showFAB() {
+        fab_storage.visibility = View.VISIBLE
+        fab_refresh.visibility = View.VISIBLE
+        fab_delete.visibility = View.VISIBLE
     }
 }

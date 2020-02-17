@@ -18,6 +18,7 @@ ext {
     recyclerViewVersion = "1.1.0"
     glideVersion = "4.11.0"
     cardViewVersion = "1.0.0"
+    materialVersion = "1.1.0"
 
     //dataDependencies Version
 
@@ -38,7 +39,8 @@ ext {
             constraintLayout    : "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
             recyclerView        : "androidx.recyclerview:recyclerview:$recyclerViewVersion",
             glide               : "com.github.bumptech.glide:glide:$glideVersion",
-            cardView            : "androidx.cardview:cardview:$cardViewVersion"
+            cardView            : "androidx.cardview:cardview:$cardViewVersion",
+            material            : "com.google.android.material:material:$materialVersion"
     ]
 
     dataDependencies = [

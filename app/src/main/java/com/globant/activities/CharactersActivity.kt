@@ -15,6 +15,8 @@ import com.globant.utils.SPAN_COUNT
 import com.globant.utils.Status
 import com.globant.utils.TAG
 import com.globant.viewmodels.RecyclerCharactersViewModel
+import com.globant.viewmodels.RecyclerData
+import com.globant.viewmodels.RecyclerStatus
 import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_delete
 import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_refresh
 import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_storage
@@ -37,22 +39,25 @@ class CharactersActivity : AppCompatActivity() {
         setListeners()
     }
 
-    private fun updateUI(characterData: Event<Data<List<MarvelCharacter>>>) {
+    private fun updateUI(characterData: Event<RecyclerData<List<MarvelCharacter>>>) {
         when (characterData.peekContent().responseType) {
-            Status.ERROR -> {
+            RecyclerStatus.ERROR -> {
                 hideLoading()
                 showToastError()
             }
-            Status.LOADING -> {
+            RecyclerStatus.LOADING -> {
                 hideFAB()
                 showLoading()
             }
-            Status.SUCCESSFUL -> {
+            RecyclerStatus.SUCCESSFUL -> {
                 hideLoading()
                 showFAB()
                 characterData.peekContent().data?.let {
                     showCharacters(it)
                 }
+            }
+            RecyclerStatus.CLEAR -> {
+                showCharacters(emptyList())
             }
         }
     }
@@ -83,9 +88,9 @@ class CharactersActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        fab_refresh.setOnClickListener { viewModel.onRefreshFABClicked(this) }
-        fab_delete.setOnClickListener { viewModel.onDeleteFABClicked(this) }
-        fab_storage.setOnClickListener { viewModel.onStorageFABClicked(this) }
+        fab_refresh.setOnClickListener { viewModel.onRefreshFABClicked() }
+        fab_delete.setOnClickListener { viewModel.onDeleteFABClicked() }
+        fab_storage.setOnClickListener { viewModel.onStorageFABClicked() }
     }
 
     fun showCharacters(characters: List<MarvelCharacter>) {

@@ -26,7 +26,6 @@ class CharacterDatabase {
                 return Result.Success(allCharacters)
             }
         }
-        return Result.Failure(Exception("Not found"))
     }
 
     fun insertOrUpdateCharacter(character: MarvelCharacter) {

@@ -36,12 +36,12 @@
         app:backgroundTint="@color/fab_background_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/fab_refresh"
-        app:layout_constraintStart_toStartOf="@id/fab_storage" />
+        app:layout_constraintStart_toStartOf="@id/fab_from_repository" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_storage"
+        android:id="@+id/fab_from_repository"
         style="@style/MarvelFloatingActionButton"
-        android:src="@android:drawable/ic_menu_save"
+        android:src="@drawable/ic_database"
         app:backgroundTint="@color/fab_background_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -54,7 +54,7 @@ class RecyclerCharactersViewModel(val getCharactersUseCase: GetCharactersUseCase
         mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
     }
 
-    fun onStorageFABClicked() {
+    fun onFromRepositoryFABClicked() {
         mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
         requestAllCharactersFromDB()
     }

@@ -10,6 +10,7 @@ import com.globant.domain.usecases.GetRepositoryUseCase
 import com.globant.domain.utils.Result
 import com.globant.utils.Event
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -44,19 +45,19 @@ class RecyclerCharactersViewModel(val getCharactersUseCase: GetCharactersUseCase
         }
     }
 
-    fun onRefreshFABClicked() {
-        mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
-        requestAllCharacters()
+    fun onRefreshFABClicked() : Job {
+        mutableMainState.value = Event(RecyclerData(responseType = RecyclerStatus.CLEAR))
+        return requestAllCharacters()
     }
 
 
     fun onDeleteFABClicked() {
-        mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
+        mutableMainState.value = Event(RecyclerData(responseType = RecyclerStatus.CLEAR))
     }
 
-    fun onFromRepositoryFABClicked() {
-        mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
-        requestAllCharactersFromDB()
+    fun onFromRepositoryFABClicked() : Job {
+        mutableMainState.value = Event(RecyclerData(responseType = RecyclerStatus.CLEAR))
+        return requestAllCharactersFromDB()
     }
 }
 

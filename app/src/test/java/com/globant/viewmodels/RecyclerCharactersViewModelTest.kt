@@ -8,7 +8,6 @@ import com.globant.domain.usecases.GetCharactersUseCase
 import com.globant.domain.usecases.GetRepositoryUseCase
 import com.globant.domain.utils.Result
 import com.globant.myapplication.UI_THREAD
-import com.globant.utils.Status
 import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -54,8 +53,8 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
     @ObsoleteCoroutinesApi
     @After
     fun after() {
-        mainThreadSurrogate.close()
         Dispatchers.resetMain()
+        mainThreadSurrogate.close()
     }
 
     @Test
@@ -85,15 +84,46 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
             .isEqualTo(RecyclerData(RecyclerStatus.ERROR, data = null))
     }
 
-
     @Test
     fun onRefreshFABClicked() {
+        val liveDataUnderTestRefresh = viewModel.mainState.testObserver()
+        whenever(getCharactersUseCase.invoke()).thenReturn(marvelCharacterListSuccess)
+        whenever(marvelCharacterListSuccess.data).thenReturn(marvelCharacterList)
+        runBlocking {
+            viewModel.onRefreshFABClicked().join()
+        }
+        Truth.assertThat(liveDataUnderTestRefresh.observedValues[0]?.peekContent())
+                .isEqualTo(RecyclerData(RecyclerStatus.CLEAR, data = null))
+        Truth.assertThat(liveDataUnderTestRefresh.observedValues[1]?.peekContent())
+                .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
+        Truth.assertThat(liveDataUnderTestRefresh.observedValues[2]?.peekContent())
+                .isEqualTo(RecyclerData(RecyclerStatus.SUCCESSFUL, data = marvelCharacterList))
+    }
+
+    @Test
+    fun onDeleteFABClicked(){
         val liveDataUnderTest = viewModel.mainState.testObserver()
         runBlocking {
-            viewModel.onRefreshFABClicked()
+            viewModel.onDeleteFABClicked()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
                 .isEqualTo(RecyclerData(RecyclerStatus.CLEAR, data = null))
+    }
+
+    @Test
+    fun onFromRepositoryFABClicked(){
+        val liveDataUnderTestRepository = viewModel.mainState.testObserver()
+        whenever(getCharactersFromDB.invoke()).thenReturn(marvelCharacterListSuccess)
+        whenever(marvelCharacterListSuccess.data).thenReturn(marvelCharacterList)
+        runBlocking {
+            viewModel.onFromRepositoryFABClicked().join()
+        }
+        Truth.assertThat(liveDataUnderTestRepository.observedValues[0]?.peekContent())
+                .isEqualTo(RecyclerData(RecyclerStatus.CLEAR, data = null))
+        Truth.assertThat(liveDataUnderTestRepository.observedValues[1]?.peekContent())
+                .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
+        Truth.assertThat(liveDataUnderTestRepository.observedValues[2]?.peekContent())
+                .isEqualTo(RecyclerData(RecyclerStatus.SUCCESSFUL, data = marvelCharacterList))
     }
 
     class TestObserver<T> : Observer<T> {

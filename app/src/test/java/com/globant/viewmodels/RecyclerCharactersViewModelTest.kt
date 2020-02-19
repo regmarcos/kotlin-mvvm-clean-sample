@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.domain.usecases.GetCharactersUseCase
+import com.globant.domain.usecases.GetRepositoryUseCase
 import com.globant.domain.utils.Result
 import com.globant.myapplication.UI_THREAD
-import com.globant.utils.Data
 import com.globant.utils.Status
 import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.mock
@@ -25,6 +25,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.test.AutoCloseKoinTest
 
+
 class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
 
     @ObsoleteCoroutinesApi
@@ -39,13 +40,14 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
     private val marvelCharacterListFailure: Result.Failure = mock()
     private val marvelCharacterList: List<MarvelCharacter> = mock()
     private val getCharactersUseCase: GetCharactersUseCase = mock()
+    private val getCharactersFromDB: GetRepositoryUseCase = mock()
 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
     @Before
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
-        viewModel = RecyclerCharactersViewModel(getCharactersUseCase)
+        viewModel = RecyclerCharactersViewModel(getCharactersUseCase, getCharactersFromDB)
     }
 
     @ExperimentalCoroutinesApi
@@ -65,9 +67,9 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
             viewModel.requestAllCharacters().join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-            .isEqualTo(Data(Status.LOADING, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-            .isEqualTo(Data(Status.SUCCESSFUL, data = marvelCharacterList))
+            .isEqualTo(RecyclerData(RecyclerStatus.SUCCESSFUL, data = marvelCharacterList))
     }
 
     @Test
@@ -78,9 +80,20 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
             viewModel.requestAllCharacters().join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-            .isEqualTo(Data(Status.LOADING, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-            .isEqualTo(Data(Status.ERROR, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.ERROR, data = null))
+    }
+
+
+    @Test
+    fun onRefreshFABClicked() {
+        val liveDataUnderTest = viewModel.mainState.testObserver()
+        runBlocking {
+            viewModel.onRefreshFABClicked()
+        }
+        Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
+                .isEqualTo(RecyclerData(RecyclerStatus.CLEAR, data = null))
     }
 
     class TestObserver<T> : Observer<T> {

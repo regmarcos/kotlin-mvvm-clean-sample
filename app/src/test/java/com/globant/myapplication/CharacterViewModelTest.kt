@@ -5,10 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.domain.usecases.GetCharacterByIdUseCase
+import com.globant.domain.usecases.GetRepositoryUseCase
 import com.globant.domain.utils.Result
 import com.globant.utils.Data
 import com.globant.utils.Status
-import com.globant.viewmodels.CharacterFragmentViewModelTest.Companion.UI_THREAD
 import com.globant.viewmodels.CharacterViewModel
 import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.mock
@@ -50,7 +50,8 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
     @Before
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
-        declareMock<GetCharacterByIdUseCase>()
+        //declareMock<GetCharacterByIdUseCase>()
+        //declareMock<GetRepositoryUseCase>()
         subject = CharacterViewModel(getCharacterByIdUseCase)
     }
 

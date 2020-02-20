@@ -86,9 +86,17 @@ class CharactersActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        fab_refresh.setOnClickListener { viewModel.onRefreshFABClicked() }
-        fab_delete.setOnClickListener { viewModel.onDeleteFABClicked() }
-        fab_from_repository.setOnClickListener { viewModel.onFromRepositoryFABClicked() }
+        fab_refresh.setOnClickListener {
+            viewModel.clearScreen()
+            viewModel.requestAllCharacters()
+        }
+        fab_delete.setOnClickListener {
+            viewModel.clearScreen()
+        }
+        fab_from_repository.setOnClickListener {
+            viewModel.clearScreen()
+            viewModel.requestAllCharactersFromDB()
+        }
     }
 
     fun showCharacters(characters: List<MarvelCharacter>) {

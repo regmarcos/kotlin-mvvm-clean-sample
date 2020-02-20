@@ -50,8 +50,6 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
     @Before
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
-        //declareMock<GetCharacterByIdUseCase>()
-        //declareMock<GetRepositoryUseCase>()
         subject = CharacterViewModel(getCharacterByIdUseCase)
     }
 

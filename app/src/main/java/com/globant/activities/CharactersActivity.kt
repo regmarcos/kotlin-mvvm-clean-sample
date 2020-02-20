@@ -15,7 +15,11 @@ import com.globant.utils.TAG
 import com.globant.viewmodels.RecyclerCharactersViewModel
 import com.globant.viewmodels.RecyclerData
 import com.globant.viewmodels.RecyclerStatus
-import kotlinx.android.synthetic.main.activity_main_recyclerview.*
+import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_delete
+import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_from_repository
+import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_refresh
+import kotlinx.android.synthetic.main.activity_main_recyclerview.progress_bar_main_activity
+import kotlinx.android.synthetic.main.activity_main_recyclerview.recycler_view_characters
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CharactersActivity : AppCompatActivity() {
@@ -96,6 +100,7 @@ class CharactersActivity : AppCompatActivity() {
         fab_refresh.visibility = View.GONE
         fab_delete.visibility = View.GONE
     }
+
     private fun showFAB() {
         fab_from_repository.visibility = View.VISIBLE
         fab_refresh.visibility = View.VISIBLE

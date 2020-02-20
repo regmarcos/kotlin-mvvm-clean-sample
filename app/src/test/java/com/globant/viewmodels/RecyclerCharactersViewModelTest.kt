@@ -126,6 +126,21 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
                 .isEqualTo(RecyclerData(RecyclerStatus.SUCCESSFUL, data = marvelCharacterList))
     }
 
+    @Test
+    fun onFromRepositoryFABClickedAndFailed() {
+        val liveDataUnderTest = viewModel.mainState.testObserver()
+        whenever(getCharactersFromDB.invoke()).thenReturn(marvelCharacterListFailure)
+        runBlocking {
+            viewModel.onFromRepositoryFABClicked().join()
+        }
+        Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
+                .isEqualTo(RecyclerData(RecyclerStatus.CLEAR, data = null))
+        Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
+                .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
+        Truth.assertThat(liveDataUnderTest.observedValues[2]?.peekContent())
+                .isEqualTo(RecyclerData(RecyclerStatus.ERROR, data = null))
+    }
+
     class TestObserver<T> : Observer<T> {
         val observedValues = mutableListOf<T?>()
         override fun onChanged(value: T?) {

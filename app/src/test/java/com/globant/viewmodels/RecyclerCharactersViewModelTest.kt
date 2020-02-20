@@ -66,9 +66,9 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
             viewModel.requestAllCharacters().join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-                .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-                .isEqualTo(RecyclerData(RecyclerStatus.SUCCESSFUL, data = marvelCharacterList))
+            .isEqualTo(RecyclerData(RecyclerStatus.SUCCESSFUL, data = marvelCharacterList))
     }
 
     @Test
@@ -79,9 +79,9 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
             viewModel.requestAllCharacters().join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-                .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-                .isEqualTo(RecyclerData(RecyclerStatus.ERROR, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.ERROR, data = null))
     }
 
     @Test
@@ -93,9 +93,9 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
             viewModel.requestAllCharactersFromDB().join()
         }
         Truth.assertThat(liveDataUnderTestRepository.observedValues[0]?.peekContent())
-                .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
         Truth.assertThat(liveDataUnderTestRepository.observedValues[1]?.peekContent())
-                .isEqualTo(RecyclerData(RecyclerStatus.SUCCESSFUL, data = marvelCharacterList))
+            .isEqualTo(RecyclerData(RecyclerStatus.SUCCESSFUL, data = marvelCharacterList))
     }
 
     @Test
@@ -106,9 +106,9 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
             viewModel.requestAllCharactersFromDB().join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-                .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-                .isEqualTo(RecyclerData(RecyclerStatus.ERROR, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.ERROR, data = null))
     }
 
     @Test

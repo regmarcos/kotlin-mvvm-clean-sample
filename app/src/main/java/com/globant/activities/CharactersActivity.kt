@@ -9,12 +9,15 @@ import com.globant.adapter.CharacterAdapter
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.fragments.CharacterFragmentDialog
 import com.globant.myapplication.R
-import com.globant.utils.Data
 import com.globant.utils.Event
 import com.globant.utils.SPAN_COUNT
-import com.globant.utils.Status
 import com.globant.utils.TAG
 import com.globant.viewmodels.RecyclerCharactersViewModel
+import com.globant.viewmodels.RecyclerData
+import com.globant.viewmodels.RecyclerStatus
+import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_delete
+import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_from_repository
+import kotlinx.android.synthetic.main.activity_main_recyclerview.fab_refresh
 import kotlinx.android.synthetic.main.activity_main_recyclerview.progress_bar_main_activity
 import kotlinx.android.synthetic.main.activity_main_recyclerview.recycler_view_characters
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,22 +34,28 @@ class CharactersActivity : AppCompatActivity() {
         recycler_view_characters.adapter = adapter
         recycler_view_characters.layoutManager = GridLayoutManager(this, SPAN_COUNT)
         viewModel.requestAllCharacters()
+        setListeners()
     }
 
-    private fun updateUI(characterData: Event<Data<List<MarvelCharacter>>>) {
+    private fun updateUI(characterData: Event<RecyclerData<List<MarvelCharacter>>>) {
         when (characterData.peekContent().responseType) {
-            Status.ERROR -> {
+            RecyclerStatus.ERROR -> {
                 hideLoading()
                 showToastError()
             }
-            Status.LOADING -> {
+            RecyclerStatus.LOADING -> {
+                hideFAB()
                 showLoading()
             }
-            Status.SUCCESSFUL -> {
+            RecyclerStatus.SUCCESSFUL -> {
                 hideLoading()
+                showFAB()
                 characterData.peekContent().data?.let {
-                    adapter.data = it
+                    showCharacters(it)
                 }
+            }
+            RecyclerStatus.CLEAR -> {
+                showCharacters(emptyList())
             }
         }
     }
@@ -70,9 +79,31 @@ class CharactersActivity : AppCompatActivity() {
     private fun showDialogFragmentCharacter(id: Int) {
         showLoading()
         val fragmentManager = this.supportFragmentManager
-        fragmentManager?.let {
+        fragmentManager.let {
             CharacterFragmentDialog.newInstance(id, this).show(it, TAG)
             hideLoading()
         }
+    }
+
+    private fun setListeners() {
+        fab_refresh.setOnClickListener { viewModel.onRefreshFABClicked() }
+        fab_delete.setOnClickListener { viewModel.onDeleteFABClicked() }
+        fab_from_repository.setOnClickListener { viewModel.onFromRepositoryFABClicked() }
+    }
+
+    fun showCharacters(characters: List<MarvelCharacter>) {
+        adapter.data = characters
+    }
+
+    private fun hideFAB() {
+        fab_from_repository.visibility = View.GONE
+        fab_refresh.visibility = View.GONE
+        fab_delete.visibility = View.GONE
+    }
+
+    private fun showFAB() {
+        fab_from_repository.visibility = View.VISIBLE
+        fab_refresh.visibility = View.VISIBLE
+        fab_delete.visibility = View.VISIBLE
     }
 }

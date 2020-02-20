@@ -6,30 +6,65 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.domain.usecases.GetCharactersUseCase
+import com.globant.domain.usecases.GetRepositoryUseCase
 import com.globant.domain.utils.Result
-import com.globant.utils.Data
 import com.globant.utils.Event
-import com.globant.utils.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RecyclerCharactersViewModel(val getCharactersUseCase: GetCharactersUseCase) : ViewModel() {
-    private var mutableMainState: MutableLiveData<Event<Data<List<MarvelCharacter>>>> = MutableLiveData()
-    val mainState: LiveData<Event<Data<List<MarvelCharacter>>>>
+class RecyclerCharactersViewModel(val getCharactersUseCase: GetCharactersUseCase, val getCharactersDBUseCase: GetRepositoryUseCase) : ViewModel() {
+    private var mutableMainState: MutableLiveData<Event<RecyclerData<List<MarvelCharacter>>>> = MutableLiveData()
+    val mainState: LiveData<Event<RecyclerData<List<MarvelCharacter>>>>
         get() {
             return mutableMainState
         }
 
     fun requestAllCharacters() = viewModelScope.launch {
-        mutableMainState.value = Event(Data(responseType = Status.LOADING))
-        when (val result = withContext(Dispatchers.IO) { getCharactersUseCase()}){
+        mutableMainState.value = Event(RecyclerData(responseType = RecyclerStatus.LOADING))
+        when (val result = withContext(Dispatchers.IO) { getCharactersUseCase() }) {
             is Result.Failure -> {
-                mutableMainState.value = Event(Data(responseType = Status.ERROR, error = result.exception))
+                mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.ERROR, error = result.exception)))
             }
             is Result.Success -> {
-                mutableMainState.value = Event(Data(responseType = Status.SUCCESSFUL, data = result.data))
+                mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.SUCCESSFUL, data = result.data)))
             }
         }
     }
+
+    private fun requestAllCharactersFromDB() = viewModelScope.launch {
+        mutableMainState.value = Event(RecyclerData(responseType = RecyclerStatus.LOADING))
+        when (val result = withContext(Dispatchers.IO) { getCharactersDBUseCase() }) {
+            is Result.Failure -> {
+                mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.ERROR, error = result.exception)))
+            }
+            is Result.Success -> {
+                mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.SUCCESSFUL, data = result.data)))
+            }
+        }
+    }
+
+    fun onRefreshFABClicked() {
+        mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
+        requestAllCharacters()
+    }
+
+
+    fun onDeleteFABClicked() {
+        mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
+    }
+
+    fun onFromRepositoryFABClicked() {
+        mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
+        requestAllCharactersFromDB()
+    }
+}
+
+data class RecyclerData<RequestData>(var responseType: RecyclerStatus, var data: RequestData? = null, var error: Exception? = null)
+
+enum class RecyclerStatus {
+    SUCCESSFUL,
+    ERROR,
+    LOADING,
+    CLEAR
 }

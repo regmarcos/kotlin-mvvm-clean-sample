@@ -131,7 +131,4 @@ class CharacterFragmentViewModelTest : AutoCloseKoinTest() {
         observeForever(it)
     }
 
-    companion object {
-
-    }
 }

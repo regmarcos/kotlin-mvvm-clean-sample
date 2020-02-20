@@ -47,7 +47,8 @@ dependencies {
             appDependencies.constraintLayout,
             appDependencies.recyclerView,
             appDependencies.glide,
-            appDependencies.cardView
+            appDependencies.cardView,
+            appDependencies.material
 
     implementation generalDependencies.appCompat,
             generalDependencies.koin

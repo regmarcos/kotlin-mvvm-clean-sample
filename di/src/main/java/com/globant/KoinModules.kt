@@ -11,6 +11,7 @@ import com.globant.domain.repositories.MarvelCharacterRepository
 import com.globant.domain.usecases.GetCharacterByIdUseCase
 import com.globant.domain.usecases.GetCharactersUseCase
 import com.globant.domain.usecases.GetComicsUseCase
+import com.globant.domain.usecases.GetRepositoryUseCase
 import org.koin.dsl.module
 
 val repositoriesModule = module {
@@ -25,4 +26,5 @@ val useCasesModule = module {
     single { GetCharacterByIdUseCase() }
     single { GetCharactersUseCase() }
     single { GetComicsUseCase() }
+    single { GetRepositoryUseCase() }
 }

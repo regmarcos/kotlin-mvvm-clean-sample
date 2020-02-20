@@ -16,6 +16,17 @@ class CharacterDatabase {
             return Result.Failure(Exception("Character not found"))
         }
     }
+    fun getAllCharacters(): Result<List<MarvelCharacter>> {
+        val mapper = CharacterMapperLocal()
+        var allCharacters = emptyList<MarvelCharacter>()
+        Realm.getDefaultInstance().use {realm ->
+            val result = realm.where(MarvelCharacterRealm::class.java).findAll()
+            result.let {
+                allCharacters = realm.copyFromRealm(it).map { result -> mapper.transform(result) }
+                return Result.Success(allCharacters)
+            }
+        }
+    }
 
     fun insertOrUpdateCharacter(character: MarvelCharacter) {
         val mapperLocal = CharacterMapperLocal()

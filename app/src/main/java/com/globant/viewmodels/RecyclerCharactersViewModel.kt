@@ -32,7 +32,7 @@ class RecyclerCharactersViewModel(val getCharactersUseCase: GetCharactersUseCase
         }
     }
 
-    private fun requestAllCharactersFromDB() = viewModelScope.launch {
+    fun requestAllCharactersFromDB() = viewModelScope.launch {
         mutableMainState.value = Event(RecyclerData(responseType = RecyclerStatus.LOADING))
         when (val result = withContext(Dispatchers.IO) { getCharactersDBUseCase() }) {
             is Result.Failure -> {
@@ -44,19 +44,8 @@ class RecyclerCharactersViewModel(val getCharactersUseCase: GetCharactersUseCase
         }
     }
 
-    fun onRefreshFABClicked() {
-        mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
-        requestAllCharacters()
-    }
-
-
-    fun onDeleteFABClicked() {
-        mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
-    }
-
-    fun onFromRepositoryFABClicked() {
-        mutableMainState.postValue(Event(RecyclerData(responseType = RecyclerStatus.CLEAR)))
-        requestAllCharactersFromDB()
+    fun clearScreen() {
+        mutableMainState.value = Event(RecyclerData(responseType = RecyclerStatus.CLEAR))
     }
 }
 

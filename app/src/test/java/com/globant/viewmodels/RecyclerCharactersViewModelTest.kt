@@ -5,10 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.domain.usecases.GetCharactersUseCase
+import com.globant.domain.usecases.GetRepositoryUseCase
 import com.globant.domain.utils.Result
 import com.globant.myapplication.UI_THREAD
-import com.globant.utils.Data
-import com.globant.utils.Status
 import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -39,21 +38,22 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
     private val marvelCharacterListFailure: Result.Failure = mock()
     private val marvelCharacterList: List<MarvelCharacter> = mock()
     private val getCharactersUseCase: GetCharactersUseCase = mock()
+    private val getCharactersFromDB: GetRepositoryUseCase = mock()
 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
     @Before
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
-        viewModel = RecyclerCharactersViewModel(getCharactersUseCase)
+        viewModel = RecyclerCharactersViewModel(getCharactersUseCase, getCharactersFromDB)
     }
 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
     @After
     fun after() {
-        mainThreadSurrogate.close()
         Dispatchers.resetMain()
+        mainThreadSurrogate.close()
     }
 
     @Test
@@ -65,9 +65,9 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
             viewModel.requestAllCharacters().join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-            .isEqualTo(Data(Status.LOADING, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-            .isEqualTo(Data(Status.SUCCESSFUL, data = marvelCharacterList))
+            .isEqualTo(RecyclerData(RecyclerStatus.SUCCESSFUL, data = marvelCharacterList))
     }
 
     @Test
@@ -78,9 +78,43 @@ class RecyclerCharactersViewModelTest : AutoCloseKoinTest() {
             viewModel.requestAllCharacters().join()
         }
         Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
-            .isEqualTo(Data(Status.LOADING, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
         Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
-            .isEqualTo(Data(Status.ERROR, data = null))
+            .isEqualTo(RecyclerData(RecyclerStatus.ERROR, data = null))
+    }
+
+    @Test
+    fun fromRepositorySuccess() {
+        val liveDataUnderTestRepository = viewModel.mainState.testObserver()
+        whenever(getCharactersFromDB.invoke()).thenReturn(marvelCharacterListSuccess)
+        whenever(marvelCharacterListSuccess.data).thenReturn(marvelCharacterList)
+        runBlocking {
+            viewModel.requestAllCharactersFromDB().join()
+        }
+        Truth.assertThat(liveDataUnderTestRepository.observedValues[0]?.peekContent())
+            .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
+        Truth.assertThat(liveDataUnderTestRepository.observedValues[1]?.peekContent())
+            .isEqualTo(RecyclerData(RecyclerStatus.SUCCESSFUL, data = marvelCharacterList))
+    }
+
+    @Test
+    fun fromRepositoryFailed() {
+        val liveDataUnderTest = viewModel.mainState.testObserver()
+        whenever(getCharactersFromDB.invoke()).thenReturn(marvelCharacterListFailure)
+        runBlocking {
+            viewModel.requestAllCharactersFromDB().join()
+        }
+        Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent())
+            .isEqualTo(RecyclerData(RecyclerStatus.LOADING, data = null))
+        Truth.assertThat(liveDataUnderTest.observedValues[1]?.peekContent())
+            .isEqualTo(RecyclerData(RecyclerStatus.ERROR, data = null))
+    }
+
+    @Test
+    fun clearedScreen() {
+        val liveDataUnderTest = viewModel.mainState.testObserver()
+        viewModel.clearScreen()
+        Truth.assertThat(liveDataUnderTest.observedValues[0]?.peekContent()).isEqualTo(RecyclerData(RecyclerStatus.CLEAR, data = null))
     }
 
     class TestObserver<T> : Observer<T> {
